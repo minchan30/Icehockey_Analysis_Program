@@ -3,7 +3,11 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QToolTip, QGrid
 QLineEdit, QInputDialog)
 from PyQt5.QtGui import QFont, QIcon
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import QTimer, QTime
+from PyQt5.QtCore import QTimer, QTime, QDate, Qt
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import QCoreApplication
+import threading
+import time
 
 
 class MyApp(QWidget) :
@@ -16,11 +20,11 @@ class MyApp(QWidget) :
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.timeout)
         
-        self.setWindowTitle('QTimer')
-        self.setGeometry(100, 100, 600, 280)
+        self.setWindowTitle('DataAnalysis')
+        self.setGeometry(100, 100, 600, 800)
         
         layout = QVBoxLayout()
- 
+
         self.lcd = QLCDNumber()
         self.lcd.display('')
         self.lcd.setDigitCount(8)
@@ -29,9 +33,9 @@ class MyApp(QWidget) :
         
         layout.addWidget(self.lcd)
         
-    def tumeout(self) :
+    def timeout(self) :
         sender = self.sender()
-        currentTime = QTime.surrnntTime().toString('hh:mm:ss')
+        currentTime = QTime.currentTime().toString('hh:mm:ss')
         
         if id (sender) == id(self.timer) :
             self.lcd.display(currentTime)
@@ -47,11 +51,6 @@ class MyApp(QWidget) :
         btn.move(220, 50)
         btn.resize(150, 45)
         
-        # btn = QPushButton('시간 변경', self)
-        # btn.setToolTip('This is a <b>QPushButton</b> widget')
-        # btn.move(220, 175)
-        # btn.resize(150, 30)
-        
         self.btn = QPushButton('시간변경', self)
         self.btn.setToolTip('This is a change time widget')
         self.btn.move(220, 130)
@@ -61,6 +60,20 @@ class MyApp(QWidget) :
         self.setWindowTitle('IceHockey')
         self.setWindowIcon(QIcon('hockey_icon.png'))
         self.setGeometry(0, 0, 1800, 1000)
+
+        image_path = 'ice_rink.png'
+
+        pixmap = QPixmap(image_path)
+        label = QLabel()
+        label.setPixmap(pixmap)
+        grid.addWidget(label)
+
+        self.setLayout(grid)
+        label.move(100, 100)
+
+        self.setWindowTitle('Image Display')
+        self.setGeometry(1000, 800, 800, 800)
+
         self.show()
         
     def timeout(self):
@@ -76,5 +89,4 @@ if __name__ == '__main__' :
     app = QApplication(sys.argv)
     myApp = MyApp()
     myApp.show()
-    ex = MyApp()
     sys.exit(app.exec_())

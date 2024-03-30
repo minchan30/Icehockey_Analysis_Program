@@ -5,9 +5,12 @@ from PyQt5.QtGui import QFont, QIcon, QPixmap, QPainter, QPen
 from PyQt5.QtCore import QTimer, QTime, Qt
 
 from model.Timer import Timer
+from model.Score import Score
+from model.Penalty import Penalty
 
-class MyApp(QWidget):
-    def __init__(self):
+
+class MyApp(QWidget) :
+    def __init__(self) :
         super().__init__()
         self.base_path = os.path.dirname(os.path.abspath(__file__))
         self.asset_path = self.base_path + "\\assets"
@@ -15,14 +18,15 @@ class MyApp(QWidget):
 
         self.initUI()
 
-    def initUI(self):
+    def initUI(self) :
         self.setWindowTitle('IceHockey')
         self.setWindowIcon(QIcon(self.asset_path + '\\ico_hockey.png'))
         
         self.vbox = QVBoxLayout()
         self.inner_hbox = QHBoxLayout()
         self.inner_hbox.addLayout(Timer(self, self.base_path))
-        self.inner_hbox.addLayout(Timer(self, self.base_path))
+        self.inner_hbox.addLayout(Score(self, self.base_path))
+        self.inner_hbox.addLayout(Penalty(self, self.base_path))
         self.vbox.addLayout(self.inner_hbox)
         
         self.setLayout(self.vbox)
@@ -30,7 +34,7 @@ class MyApp(QWidget):
         self.show()
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' :
     app = QApplication(sys.argv)
     myApp = MyApp()
     myApp.show()
